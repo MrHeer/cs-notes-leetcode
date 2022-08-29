@@ -95,28 +95,40 @@ fn print_title() {
     println!();
 }
 
-fn new_chapter(chapter: &str) {
+fn print_chapter_header(chapter: &str) {
     println!("## {}", chapter);
     println!();
     println!("| Num | Problem | Difficulty |");
     println!("| --: | ------- | ---------- |");
 }
 
+fn print_problems(problems: &Vec<Problem>) {
+    problems.iter().for_each(|problem| println!("{}", problem));
+    println!();
+}
+
 fn main() {
     print_title();
-    let link_selector = Selector::parse("main ul > li > a").unwrap();
+
+    let chapter_link_selector = Selector::parse("main ul > li > a").unwrap();
     let html = fetch(consts::LEETCODE_URL).unwrap();
-    let links = html.select(&link_selector);
-    links.for_each(|ele| {
-        let url = ele.value().attr("href").unwrap();
+    let chapter_links = html.select(&chapter_link_selector);
+    chapter_links.for_each(|chapter_element| {
+        let chapter_url = chapter_element.value().attr("href").unwrap();
         lazy_static! {
             static ref RE: Regex = Regex::new(r"^.+ - (?P<chapter>.+)\.html$").unwrap();
         }
-        let chapter = RE.captures(url).unwrap().name("chapter").unwrap().as_str();
-        new_chapter(chapter);
+        let chapter = RE
+            .captures(chapter_url)
+            .unwrap()
+            .name("chapter")
+            .unwrap()
+            .as_str();
+
+        print_chapter_header(chapter);
 
         let problems =
-            fetch_problems((String::from(consts::BASE_URL) + &String::from(url)).as_str());
-        problems.iter().for_each(|problem| println!("{}", problem))
+            fetch_problems((String::from(consts::BASE_URL) + &String::from(chapter_url)).as_str());
+        print_problems(&problems);
     })
 }
