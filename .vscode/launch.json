@@ -1,0 +1,45 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "Debug executable 'cs-notes-leetcode'",
+			"cargo": {
+				"args": [
+					"build",
+					"--bin=cs-notes-leetcode",
+					"--package=cs-notes-leetcode"
+				],
+				"filter": {
+					"name": "cs-notes-leetcode",
+					"kind": "bin"
+				}
+			},
+			"args": [],
+			"cwd": "${workspaceFolder}"
+		},
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "Debug unit tests in executable 'cs-notes-leetcode'",
+			"cargo": {
+				"args": [
+					"test",
+					"--no-run",
+					"--bin=cs-notes-leetcode",
+					"--package=cs-notes-leetcode"
+				],
+				"filter": {
+					"name": "cs-notes-leetcode",
+					"kind": "bin"
+				}
+			},
+			"args": [],
+			"cwd": "${workspaceFolder}"
+		}
+	]
+}
