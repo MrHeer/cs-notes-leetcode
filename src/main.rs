@@ -95,7 +95,8 @@ fn main() {
 
     let html = fetch(consts::LEETCODE_URL).unwrap();
     let links = html.select(&link_selector);
-    println!("# [CS-Notes Leetcode]({})\n", consts::LEETCODE_URL);
+    println!("# CS-Notes Leetcode");
+    println!();
     links.for_each(|ele| {
         let url = ele.value().attr("href").unwrap();
 
@@ -103,7 +104,10 @@ fn main() {
             static ref RE: Regex = Regex::new(r"^.+ - (?P<chapter>.+)\.html$").unwrap();
         }
         let chapter = RE.captures(url).unwrap().name("chapter").unwrap().as_str();
-        println!("## [{}]({})\n", chapter, url);
+        println!("## {}", chapter);
+        println!();
+        println!("| Num | Problem | Difficulty |");
+        println!("| --: | ------- | ---------- |");
         let problems =
             fetch_problems((String::from(consts::BASE_URL) + &String::from(url)).as_str());
         problems.iter().for_each(|problem| println!("{}", problem))
