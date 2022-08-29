@@ -90,24 +90,31 @@ fn fetch_problems(url: &str) -> Vec<Problem> {
     problems
 }
 
-fn main() {
-    let link_selector = Selector::parse("main ul > li > a").unwrap();
-
-    let html = fetch(consts::LEETCODE_URL).unwrap();
-    let links = html.select(&link_selector);
+fn print_title() {
     println!("# CS-Notes Leetcode");
     println!();
+}
+
+fn new_chapter(chapter: &str) {
+    println!("## {}", chapter);
+    println!();
+    println!("| Num | Problem | Difficulty |");
+    println!("| --: | ------- | ---------- |");
+}
+
+fn main() {
+    print_title();
+    let link_selector = Selector::parse("main ul > li > a").unwrap();
+    let html = fetch(consts::LEETCODE_URL).unwrap();
+    let links = html.select(&link_selector);
     links.for_each(|ele| {
         let url = ele.value().attr("href").unwrap();
-
         lazy_static! {
             static ref RE: Regex = Regex::new(r"^.+ - (?P<chapter>.+)\.html$").unwrap();
         }
         let chapter = RE.captures(url).unwrap().name("chapter").unwrap().as_str();
-        println!("## {}", chapter);
-        println!();
-        println!("| Num | Problem | Difficulty |");
-        println!("| --: | ------- | ---------- |");
+        new_chapter(chapter);
+
         let problems =
             fetch_problems((String::from(consts::BASE_URL) + &String::from(url)).as_str());
         problems.iter().for_each(|problem| println!("{}", problem))
