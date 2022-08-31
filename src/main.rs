@@ -1,12 +1,16 @@
+use std::{fs::File, io::Error};
+
 use api::fetch_categories;
-use markdown::{print_categories, print_title};
+use export::{markdown::MarkdownExportor, Exportor};
 
 mod api;
 mod consts;
-mod markdown;
+mod export;
 
-fn main() {
-    print_title();
+fn main() -> Result<(), Error> {
     let categories = fetch_categories();
-    print_categories(&categories);
+    let file = File::create("README_TEST.md")?;
+    let mut export = MarkdownExportor::new(file);
+    export.export(&categories)?;
+    Ok(())
 }
