@@ -1,4 +1,4 @@
-use std::{error, fmt::Display};
+use std::fmt::Display;
 
 use super::consts::{BASE_URL, CATEGORY_NAME_RE, LEETCODE_URL, PROBLEM_RE};
 use const_str::parse;
@@ -39,10 +39,9 @@ pub struct Category {
     pub problems: Vec<Problem>,
 }
 
-fn fetch(url: &str) -> Result<Html, Box<dyn error::Error>> {
-    let resp = blocking::get(url)?.text().unwrap();
-    let html = Html::parse_document(&resp);
-    Ok(html)
+fn fetch(url: &str) -> Html {
+    let resp = blocking::get(url).unwrap().text().unwrap();
+    Html::parse_document(&resp)
 }
 
 fn find_url_element(problem_element: &ElementRef) -> Element {
@@ -82,7 +81,7 @@ fn make_problem(problem_element: &ElementRef) -> Problem {
 }
 
 fn fetch_problems(url: &str) -> Vec<Problem> {
-    let html = fetch(url).unwrap();
+    let html = fetch(url);
     let problem_selector = Selector::parse("main h2 + p, main h3 + p").unwrap();
     let problem_elements = html
         .select(&problem_selector)
@@ -117,7 +116,7 @@ pub fn fetch_categories() -> Vec<Category> {
     let mut chapters = Vec::new();
 
     let categories_link_selector = Selector::parse("main ul > li > a").unwrap();
-    let html = fetch(LEETCODE_URL).unwrap();
+    let html = fetch(LEETCODE_URL);
     let categories_links = html.select(&categories_link_selector);
     categories_links.for_each(|category_element| {
         chapters.push(make_category(&category_element));

@@ -12,12 +12,11 @@ impl Exportor for MarkdownExportor {
         MarkdownExportor { file }
     }
 
-    fn export(&mut self, categories: &Vec<Category>) -> Result<(), std::io::Error> {
+    fn export(&mut self, categories: &Vec<Category>) {
         let title = format_title();
         let categories = format_categories(categories);
         let document = [title, categories].join("\n");
-        self.file.write(document.as_bytes())?;
-        Ok(())
+        self.file.write(document.as_bytes()).unwrap();
     }
 }
 
