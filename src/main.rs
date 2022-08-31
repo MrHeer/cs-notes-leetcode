@@ -9,7 +9,7 @@ mod export;
 
 fn main() -> Result<(), Error> {
     let categories = fetch_categories();
-    let file = File::create("README_TEST.md")?;
+    let file = File::create("README.md")?;
     let mut export = MarkdownExportor::new(file);
     export.export(&categories)?;
     Ok(())
