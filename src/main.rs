@@ -8,8 +8,13 @@ mod consts;
 mod export;
 
 fn main() {
+    println!("Fetching data...");
     let categories = fetch_categories();
-    let file = File::create("README.md").unwrap();
+
+    let file_name = "README.md";
+    println!("Writing data to {}...", file_name);
+    let file = File::create(file_name).unwrap();
     let mut export = MarkdownExportor::new(file);
     export.export(&categories);
+    println!("Done!");
 }

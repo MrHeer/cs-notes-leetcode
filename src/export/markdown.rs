@@ -25,7 +25,7 @@ fn format_title() -> String {
 }
 
 fn format_table_header() -> String {
-    format!("| Num | Problem | Difficulty |\n| --: | ------- | ---------- |",)
+    String::from("| Num | Problem | Difficulty |\n| --: | ------- | ---------- |")
 }
 
 fn format_category_title(category_name: &str) -> String {
