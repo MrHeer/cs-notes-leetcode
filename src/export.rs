@@ -2,7 +2,7 @@ use std::fs::File;
 
 use super::api::Category;
 
-pub trait Exportor {
+pub trait Exporter {
     fn new(file: File) -> Self;
 
     fn export(&mut self, categories: &Vec<Category>);

@@ -1,15 +1,15 @@
 use std::{fs::File, io::Write};
 
-use super::Exportor;
+use super::Exporter;
 use crate::api::{Category, Problem};
 
-pub struct MarkdownExportor {
+pub struct MarkdownExporter {
     file: File,
 }
 
-impl Exportor for MarkdownExportor {
-    fn new(file: File) -> MarkdownExportor {
-        MarkdownExportor { file }
+impl Exporter for MarkdownExporter {
+    fn new(file: File) -> MarkdownExporter {
+        MarkdownExporter { file }
     }
 
     fn export(&mut self, categories: &Vec<Category>) {
