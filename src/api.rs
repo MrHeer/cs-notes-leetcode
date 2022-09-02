@@ -113,13 +113,13 @@ fn make_category(category_element: &ElementRef) -> Category {
 }
 
 pub fn fetch_categories() -> Vec<Category> {
-    let mut chapters = Vec::new();
+    let mut categories = Vec::new();
 
     let categories_link_selector = Selector::parse("main ul > li > a").unwrap();
     let html = fetch(LEETCODE_URL);
     let categories_links = html.select(&categories_link_selector);
     categories_links.for_each(|category_element| {
-        chapters.push(make_category(&category_element));
+        categories.push(make_category(&category_element));
     });
-    chapters
+    categories
 }
