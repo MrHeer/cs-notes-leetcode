@@ -14,7 +14,7 @@ fn main() {
     let file_name = "README.md";
     println!("Writing data to {}...", file_name);
     let file = File::create(file_name).unwrap();
-    let mut export = MarkdownExportor::new(file);
-    export.export(&categories);
+    let mut exportor = MarkdownExportor::new(file);
+    exportor.export(&categories);
     println!("Done!");
 }
