@@ -5,7 +5,7 @@ use const_str::parse;
 use reqwest::blocking;
 use scraper::{node::Element, ElementRef, Html, Selector};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Diff {
     Easy,
     Medium,
@@ -23,7 +23,7 @@ impl Display for Diff {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Problem {
     pub number: usize,
     pub name: String,
@@ -31,7 +31,7 @@ pub struct Problem {
     pub url: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Category {
     pub name: String,
     #[allow(unused)]
