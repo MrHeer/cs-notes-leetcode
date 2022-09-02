@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use super::consts::{BASE_URL, CATEGORY_NAME_RE, LEETCODE_URL, PROBLEM_RE};
+use super::statics::{BASE_URL, CATEGORY_NAME_RE, LEETCODE_URL, PROBLEM_RE};
 use const_str::parse;
 use reqwest::blocking;
 use scraper::{node::Element, ElementRef, Html, Selector};
