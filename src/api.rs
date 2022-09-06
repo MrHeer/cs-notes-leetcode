@@ -57,7 +57,7 @@ fn find_url_element(problem_element: &ElementRef) -> Element {
         .to_owned()
 }
 
-fn make_problem(problem_element: &ElementRef) -> Problem {
+fn make_problem(problem_element: ElementRef) -> Problem {
     let url_element = find_url_element(&problem_element);
 
     let title = problem_element.inner_html();
@@ -83,17 +83,13 @@ fn make_problem(problem_element: &ElementRef) -> Problem {
 fn fetch_problems(url: &str) -> Vec<Problem> {
     let html = fetch(url);
     let problem_selector = Selector::parse("main h2 + p, main h3 + p").unwrap();
-    let problem_elements = html
-        .select(&problem_selector)
-        .filter(|problem_element| PROBLEM_RE.is_match(&problem_element.inner_html()));
-    let mut problems: Vec<Problem> = Vec::new();
-    problem_elements.for_each(|problem_element| {
-        problems.push(make_problem(&problem_element));
-    });
-    problems
+    html.select(&problem_selector)
+        .filter(|problem_element| PROBLEM_RE.is_match(&problem_element.inner_html()))
+        .map(make_problem)
+        .collect()
 }
 
-fn make_category(category_element: &ElementRef) -> Category {
+fn make_category(category_element: ElementRef) -> Category {
     let url = category_element.value().attr("href").unwrap().to_string();
     let name = CATEGORY_NAME_RE
         .captures(&url)
@@ -113,13 +109,9 @@ fn make_category(category_element: &ElementRef) -> Category {
 }
 
 pub fn fetch_categories() -> Vec<Category> {
-    let mut categories = Vec::new();
-
     let categories_link_selector = Selector::parse("main ul > li > a").unwrap();
     let html = fetch(LEETCODE_URL);
-    let categories_links = html.select(&categories_link_selector);
-    categories_links.for_each(|category_element| {
-        categories.push(make_category(&category_element));
-    });
-    categories
+    html.select(&categories_link_selector)
+        .map(make_category)
+        .collect()
 }

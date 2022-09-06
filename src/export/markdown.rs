@@ -43,11 +43,11 @@ fn format_problem(problem: &Problem) -> String {
 }
 
 fn format_problems(problems: &Vec<Problem>) -> String {
-    let mut buf = Vec::new();
-    problems.iter().for_each(|problem| {
-        buf.push(format_problem(problem));
-    });
-    buf.join("\n")
+    problems
+        .iter()
+        .map(format_problem)
+        .collect::<Vec<String>>()
+        .join("\n")
 }
 
 fn format_category(category: &Category) -> String {
@@ -61,9 +61,9 @@ fn format_category(category: &Category) -> String {
 }
 
 fn format_categories(categories: &Vec<Category>) -> String {
-    let mut buf = Vec::new();
-    categories.iter().for_each(|category| {
-        buf.push(format_category(category));
-    });
-    buf.join("\n\n")
+    categories
+        .iter()
+        .map(format_category)
+        .collect::<Vec<String>>()
+        .join("\n\n")
 }
